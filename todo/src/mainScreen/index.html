@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Tarefas</title>
+</head>
+
+<body>
+    <div class="todo">
+        <aside id="taskList">
+            <section class="item activate">
+                <div class="title"> <small class="tag done">Feito</small>
+                    <h2>Criar programa electron</h2>
+                </div>
+                <p class="content">Lorem ipsum dolor sit amet...</p>
+            </section>
+            <section class="item">
+                <div class="title"> <small class="tag done">Feito</small>
+                    <h2>Criar programa electron</h2>
+                </div>
+                <p class="content">Lorem ipsum dolor sit amet...</p>
+            </section>
+            <section class="item">
+                <div class="title"> <small class="tag await">A fazer</small>
+                    <h2>Criar programa electron</h2>
+                </div>
+                <p class="content">Lorem ipsum dolor sit amet...</p>
+            </section>
+            <!-- <section class="item">
+                <div class="title"> <span class="tag done">Feito</span>
+                    <h2>Criar programa electron</h2>
+                </div>
+                <p class="content">Lorem ipsum dolor sit amet...</p>
+            </section> -->
+        </aside>
+        <main>
+            <div class="header">
+                <h1 id="show-title">A fazer aqui</h1>
+                <button class="switch" id="show-status" onclick="changeTaskStatus()">
+                    Feito
+                </button>
+            </div>
+            <p class="text" id="show-content">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto ut
+                atque iusto non ab
+                possimus ipsam dignissimos, tempore incidunt delectus ducimus recusandae eaque ipsa exercitationem
+                perferendis doloremque laudantium distinctio autem. Lorem ipsum dolor, sit amet consectetur adipisicing
+                elit. Quae earum molestias tempora consequatur voluptas aperiam eum nemo nisi, perspiciatis quas.
+                Voluptatem eligendi saepe consectetur repellat beatae voluptates nemo repudiandae alias.</p>
+        </main>
+    </div>
+    <div class="controls">
+        <button onclick="openAddScreen()">Adicionar</button>
+    </div>
+</body>
+<script>
+    const api = window.myAPI;
+    let statusGlobal = {};
+
+    function openAddScreen() {
+        api.openAdd();
+    }
+
+    function changeTaskStatus() {
+        if (!statusGlobal.id) return;
+
+        let statusChange = (statusGlobal.status == "true") ? true : false;
+        api.changeStatus({ id: statusGlobal.id, status: statusChange });
+        console.log(statusGlobal);
+        setList();
+    }
+
+    function setTask(id, title, content, status, el) {
+        document.getElementById("show-title").innerHTML = title;
+        document.getElementById("show-content").innerHTML = content;
+
+        if (document.querySelector("#taskList .item.activate") != undefined) {
+            document.querySelector("#taskList .activate").classList.remove("activate");
+        }
+
+        el.classList.add("activate");
+
+        if (status == "true") {
+            document.getElementById("show-status").classList.add("done");
+            document.getElementById("show-status").innerHTML = "Feito";
+        } else {
+            document.getElementById("show-status").classList.remove("done");
+            document.getElementById("show-status").innerHTML = "A fazer";
+        }
+
+        statusGlobal = { id, status };
+        active = id;
+    }
+
+    async function setList() {
+        let req = await api.fetchList();
+        let html = "";
+
+        req.forEach((item) => {
+            html += `
+            <section class="item tab-${item.id}" onclick="setTask('${item.id}', '${item.title}', '${item.content}', '${item.state}', this)">
+                <div class="title"> <small class="tag ${item.state ? "done" : "await"}">${item.state ? "Feito" : "A fazer"}</small>
+                    <h2>${item.title}</h2>
+                </div>
+                <p class="content">${item.content}</p>
+            </section>
+            `;
+        })
+
+        document.getElementById("taskList").innerHTML = html;
+        document.querySelectorAll("#taskList .item")[0].click();
+    }
+
+    api.refresh(setList);
+
+    setList();
+</script>
+
+</html>

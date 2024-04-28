@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Add tarefa</title>
+</head>
+
+<body>
+    <div class="todo" style="grid-template-columns: auto;">
+        <main>
+            <div class="header">
+                <h1>A fazer aqui</h1>
+            </div>
+            <br>
+            <input type="text" placeholder="Nome da task" id="name">
+            <textarea name="content" id="content" placeholder="conteudo"></textarea>
+        </main>
+    </div>
+    <div class="controls">
+        <button onclick="addTaskAction()">Adicionar</button>
+    </div>
+</body>
+<script>
+    const api = window.myAPI;
+
+    function addTaskAction() {
+        const name = document.getElementById("name").value;
+        const content = document.getElementById("content").value;
+
+        if (name.length == 0 || content.length == 0) {
+            alert("Preencha todos os campos");
+            return;
+        }
+
+        api.addTask(name, content);
+    }
+</script>
+
+</html>

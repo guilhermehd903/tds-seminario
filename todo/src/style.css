@@ -1,0 +1,160 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+.todo {
+    height: calc(100% - 60px);
+    display: grid;
+    grid-template-columns: 250px auto;
+}
+
+.todo input, .todo textarea {
+    margin-bottom: 15px;
+    width: 100%;
+    height: 45px;
+    background-color: #222;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 5px 10px;
+}
+
+.todo textarea {
+    height: 100px;
+    resize: none;
+}
+
+.todo input::placeholder, .todo textarea::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.todo aside, .todo main {
+    height: 100%;
+    padding: 20px;
+}
+
+.todo aside {
+    overflow-y: auto;
+}
+
+.todo aside .item {
+    cursor: pointer;
+    padding: 15px;
+    background-color: #222;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    transition: 0.8s all;
+}
+
+.todo aside .item:hover, .todo aside .item.activate {
+    border: 1px solid #fff;
+}
+
+.todo aside .item .title {
+    display: flex;
+    flex-direction: column;
+    column-gap: 15px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.todo aside .item .title small {
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: fit-content;
+}
+
+.todo aside .item .title small.done {
+    background-color: rgb(111, 228, 189);
+}
+
+.todo aside .item .title small.await {
+    background-color: rgb(212, 168, 85);
+}
+
+.todo aside .item .title h2 {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.todo aside .item .content {
+    font-size: 12px;
+    opacity: 0.8;
+    font-style: initial;
+    color: #fff;
+    margin: 0;
+}
+
+.todo main {
+    background-color: #444;
+}
+
+.todo main .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.todo main .header h1 {
+    font-size: 20px;
+    color: #fff;
+}
+
+.todo main .header .switch {
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    height: 40px;
+    border: 1px solid #222;
+    color: #fff;
+    background-color: transparent;
+}
+
+.todo main .header .switch:hover, .todo main .header .switch.done {
+    background-color: #222;
+    color: #fff;
+}
+
+.todo main .text {
+    line-height: 27px;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+    text-align: justify;
+}
+
+
+
+.controls {
+    padding: 0 20px;
+    background-color: #555;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.controls button {
+    cursor: pointer;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    color: #fff;
+    border: 0;
+    background-color: darkcyan;
+    transition: 0.8s all;
+}
+
+.controls button:hover {
+    background-color: cyan;
+}
